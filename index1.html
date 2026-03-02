@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐋 Pseudo-Whales - ICT Trading Journal Pro</title>
+    <style>
+        :root {
+            --color-bg-primary: #0a0a0f;
+            --color-bg-secondary: #13131a;
+            --color-bg-tertiary: #1a1a24;
+            --color-bg-elevated: #22222e;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #b4b4c8;
+            --color-text-muted: #7a7a8c;
+            --color-border: #2a2a38;
+            --color-accent-blue: #3b82f6;
+            --color-accent-green: #10b981;
+            --color-accent-red: #ef4444;
+            --color-accent-yellow: #f59e0b;
+            --color-accent-purple: #8b5cf6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #1a1a24 0%, #13131a 100%);
+            border-radius: 16px;
+            margin-bottom: 30px;
+            border: 1px solid var(--color-border);
+        }
+
+        header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .logo { font-size: 40px; }
+        .subtitle { color: var(--color-text-secondary); font-size: 14px; }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+            background: var(--color-bg-secondary);
+            padding: 8px;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 12px 20px;
+            background: transparent;
+            color: var(--color-text-secondary);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover {
+            background: var(--color-bg-tertiary);
+            color: var(--color-text-primary);
+        }
+
+        .nav-tab.active {
+            background: var(--color-accent-blue);
+            color: white;
+        }
+
+        .view { display: none; }
+        .view.active { display: block; }
+
+        .card {
+            background: var(--color-bg-secondary);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid var(--color-border);
+        }
+
+        .card h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--color-accent-blue);
+        }
+
+        .card h3 {
+            font-size: 18px;
+            margin: 24px 0 16px;
+            color: var(--color-text-primary);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            padding: 12px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text-primary);
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: var(--color-accent-blue);
+        }
+
+        .input-group textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: var(--color-accent-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        button:active { transform: translateY(0); }
+
+        button.secondary {
+            background: var(--color-bg-tertiary);
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border);
+        }
+
+        button.secondary:hover { background: var(--color-bg-elevated); }
+
+        button.danger {
+            background: var(--color-accent-red);
+        }
+
+        button.danger:hover {
+            background: #dc2626;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .concept-btn {
+            background: var(--color-bg-tertiary);
+            color: var(--color-text-primary);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .concept-btn:hover {
+            border-color: var(--color-accent-blue);
+            background: var(--color-bg-elevated);
+        }
+
+        .concept-btn.selected {
+            background: var(--color-accent-blue);
+            color: white;
+            border-color: var(--color-accent-blue);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .emotion-scale {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .emotion-scale input[type="range"] {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--color-bg-tertiary);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .emotion-scale input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--color-accent-blue);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .emotion-scale .scale-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-accent-blue);
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .trade-card {
+            background: var(--color-bg-tertiary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--color-accent-blue);
+        }
+
+        .trade-card.win { border-left-color: var(--color-accent-green); }
+        .trade-card.loss { border-left-color: var(--color-accent-red); }
+        .trade-card.breakeven { border-left-color: var(--color-accent-yellow); }
+
+        .trade-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .trade-card-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .trade-card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .trade-card-actions button {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--color-bg-tertiary);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--color-border);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-accent-blue);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--color-text-muted);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--color-text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .emotion-insight {
+            background: var(--color-bg-tertiary);
+            border-left: 4px solid var(--color-accent-purple);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .emotion-insight-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--color-accent-purple);
+        }
+
+        .screenshot-upload {
+            border: 2px dashed var(--color-border);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 16px;
+        }
+
+        .screenshot-upload:hover {
+            border-color: var(--color-accent-blue);
+            background: var(--color-bg-tertiary);
+        }
+
+        .screenshot-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .screenshot-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+        }
+
+        .screenshot-item .remove-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: var(--color-accent-red);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .screenshot-item .label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 4px 8px;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: zoom-out;
+        }
+
+        .image-modal.active {
+            display: flex;
+        }
+
+        .image-modal img {
+            max-width: 95%;
+            max-height: 95vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--color-accent-red);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 2001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .image-modal-close:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-tabs { overflow-x: scroll; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <h1>
+                        <span class="logo">🐋</span>
+                        Pseudo-Whales (ICT Trading Journal Pro)
+                    </h1>
+                    <p class="subtitle">Advanced Trading Journal with Psychology Tracking & Screenshot Analysis</p>
+                </div>
+                <div style="text-align: right;">
+                    <div style="color: var(--color-text-secondary); font-size: 13px; margin-bottom: 6px;">
+                        Logged in as: <strong id="currentUsername" style="color: var(--color-accent-blue);">User</strong>
+                    </div>
+                    <button onclick="logout()" style="padding: 8px 16px; background: var(--color-accent-red); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s;">
+                        🚪 Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <nav class="nav-tabs">
+            <button type="button" class="nav-tab active" onclick="showView('new-trade', this)">📝 New Trade</button>
+            <button type="button" class="nav-tab" onclick="showView('trade-journal', this)">📚 Trade Journal</button>
+            <button type="button" class="nav-tab" onclick="showView('analysis', this)">📊 Analysis & Stats</button>
+            <button type="button" class="nav-tab" onclick="showView('psychology', this)">🧠 Psychology Insights</button>
+            <button type="button" class="nav-tab" onclick="showView('export', this)">📤 Export/Import</button>
+        </nav>
+
+        <!-- New Trade View -->
+        <div id="new-trade" class="view active">
+            <div class="card">
+                <h2>📝 Record New Trade</h2>
+
+                <h3>Trade Setup</h3>
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label for="pair">Currency Pair</label>
+                        <select id="pair">
+                            <option value="">Select Currency Pair</option>
+                            <option value="EURUSD">EUR/USD</option>
+                            <option value="GBPUSD">GBP/USD</option>
+                            <option value="USDJPY">USD/JPY</option>
+                            <option value="AUDUSD">AUD/USD</option>
+                            <option value="XAUUSD">XAU/USD (Gold)</option>
+                            <option value="USDCAD">USD/CAD</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="direction">Direction</label>
+                        <select id="direction">
+                            <option value="">Select Direction</option>
+                            <option value="Long">Long (Buy)</option>
+                            <option value="Short">Short (Sell)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label for="entryDate">📅 Entry Date</label>
+                        <input type="date" id="entryDate" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="session">⏰ Trading Session</label>
+                        <select id="session">
+                            <option value="">Select Session</option>
+                            <option value="London">🇬🇧 London Kill Zone</option>
+                            <option value="New York">🇺🇸 New York Kill Zone</option>
+                            <option value="London Close">🌆 London Close</option>
+                            <option value="Asia">🌏 Asia Session</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="timeframe">⏱️ Entry Time Frame</label>
+                    <select id="timeframe">
+                        <option value="">Select Timeframe</option>
+                        <option value="1m">1 Minute</option>
+                        <option value="5m">5 Minutes</option>
+                        <option value="15m">15 Minutes</option>
+                        <option value="30m">30 Minutes</option>
+                        <option value="1h">1 Hour</option>
+                        <option value="4h">4 Hours</option>
+                        <option value="Daily">Daily</option>
+                    </select>
+                </div>
+
+                <div class="grid">
+                    <div class="input-group">
+                        <label for="entry">Entry Price</label>
+                        <input type="number" id="entry" step="0.00001" placeholder="0.00000">
+                    </div>
+                    <div class="input-group">
+                        <label for="sl">Stop Loss</label>
+                        <input type="number" id="sl" step="0.00001" placeholder="0.00000">
+                    </div>
+                    <div class="input-group">
+                        <label for="tp">Take Profit</label>
+                        <input type="number" id="tp" step="0.00001" placeholder="0.00000">
+                    </div>
+                    <div class="input-group">
+                        <label for="lotsize">Lot Size</label>
+                        <input type="number" id="lotsize" step="0.01" placeholder="0.01">
+                    </div>
+                </div>
+
+                <h3>💡 ICT Concepts Used</h3>
+                <div class="concept-grid">
+                    <button class="concept-btn" onclick="toggleConcept(this)">Order Block</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">Breaker Block</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">FVG (Fair Value Gap)</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">Liquidity Sweep</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">Market Structure Shift</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">Break of Structure</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">Optimal Trade Entry</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">Power of Three</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">SMT Divergence</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">IFVG</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">PD Array</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">Unicorn Model</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">CISD</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">BISI / SIBI</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">Silver Bullet</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">2022 Model</button>
+                </div>
+
+                <h3>🧠 Emotional State (Before Trade)</h3>
+                <div class="input-group">
+                    <label for="emotionBefore">How did you feel before entering?</label>
+                    <select id="emotionBefore">
+                        <option value="">Select emotion</option>
+                        <option value="Confident">😎 Confident</option>
+                        <option value="Calm">😌 Calm</option>
+                        <option value="Excited">🤩 Excited</option>
+                        <option value="Nervous">😰 Nervous</option>
+                        <option value="Fearful">😨 Fearful</option>
+                        <option value="Impatient">😤 Impatient</option>
+                        <option value="FOMO">😱 FOMO (Fear of Missing Out)</option>
+                        <option value="Revenge">😡 Revenge Trading</option>
+                    </select>
+                </div>
+
+                <div class="emotion-scale">
+                    <label>Intensity:</label>
+                    <input type="range" id="emotionBeforeIntensity" min="1" max="10" value="5" 
+                           oninput="document.getElementById('emotionBeforeValue').textContent = this.value">
+                    <span class="scale-value" id="emotionBeforeValue">5</span>
+                </div>
+
+                <div class="input-group">
+                    <label for="emotionBeforeNotes">Emotional notes (before)</label>
+                    <textarea id="emotionBeforeNotes" placeholder="What thoughts were going through your mind? Any specific triggers?"></textarea>
+                </div>
+
+                <h3>📸 Screenshots</h3>
+                <div class="grid-2">
+                    <div>
+                        <label>Before Trade Screenshot</label>
+                        <div class="screenshot-upload" onclick="document.getElementById('beforeScreenshot').click()">
+                            <input type="file" id="beforeScreenshot" accept="image/*" onchange="handleScreenshot(this, 'before')" style="display: none;">
+                            <div>📷 Click to upload Before screenshot</div>
+                            <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 8px;">Chart setup before execution</div>
+                        </div>
+                        <div id="beforePreview" class="screenshot-preview"></div>
+                    </div>
+                    <div>
+                        <label>After Trade Screenshot</label>
+                        <div class="screenshot-upload" onclick="document.getElementById('afterScreenshot').click()">
+                            <input type="file" id="afterScreenshot" accept="image/*" onchange="handleScreenshot(this, 'after')" style="display: none;">
+                            <div>📷 Click to upload After screenshot</div>
+                            <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 8px;">Chart result after close</div>
+                        </div>
+                        <div id="afterPreview" class="screenshot-preview"></div>
+                    </div>
+                </div>
+
+                <h3>📊 Trade Outcome</h3>
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label for="result">Result</label>
+                        <select id="result">
+                            <option value="">Select Outcome</option>
+                            <option value="Win">✅ Win</option>
+                            <option value="Loss">❌ Loss</option>
+                            <option value="Breakeven">⚖️ Breakeven</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="rr">Risk:Reward (R:R)</label>
+                        <input type="text" id="rr" placeholder="e.g., 1:2, 1:3, 1:1.5">
+                    </div>
+                </div>
+
+                <h3>🧠 Emotional State (After Trade)</h3>
+                <div class="input-group">
+                    <label for="emotionAfter">How do you feel after closing the trade?</label>
+                    <select id="emotionAfter">
+                        <option value="">Select emotion</option>
+                        <option value="Satisfied">😊 Satisfied</option>
+                        <option value="Relieved">😮‍💨 Relieved</option>
+                        <option value="Disappointed">😞 Disappointed</option>
+                        <option value="Frustrated">😠 Frustrated</option>
+                        <option value="Regretful">😔 Regretful</option>
+                        <option value="Overconfident">😏 Overconfident</option>
+                        <option value="Vengeful">😡 Vengeful</option>
+                        <option value="Peaceful">😌 Peaceful</option>
+                    </select>
+                </div>
+
+                <div class="emotion-scale">
+                    <label>Intensity:</label>
+                    <input type="range" id="emotionAfterIntensity" min="1" max="10" value="5"
+                           oninput="document.getElementById('emotionAfterValue').textContent = this.value">
+                    <span class="scale-value" id="emotionAfterValue">5</span>
+                </div>
+
+                <div class="input-group">
+                    <label for="emotionAfterNotes">Emotional notes (after)</label>
+                    <textarea id="emotionAfterNotes" placeholder="What triggered these emotions? Any lessons learned?"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="notes">📝 Trade Notes</label>
+                    <textarea id="notes" placeholder="Describe your analysis, entry reasoning, and trade management plan..."></textarea>
+                </div>
+
+                <button onclick="saveTrade()" style="width: 100%; margin-top: 20px;">💾 Save Trade</button>
+            </div>
+        </div>
+
+        <!-- Trade Journal View -->
+        <div id="trade-journal" class="view">
+            <div class="card">
+                <h2>📚 Trade Journal</h2>
+                <div id="journalContent">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📝</div>
+                        <p>No trades recorded yet. Start by adding your first trade!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis View -->
+        <div id="analysis" class="view">
+            <div class="card">
+                <h2>📊 Trading Statistics</h2>
+                <div id="statsContent"></div>
+            </div>
+        </div>
+
+        <!-- Psychology View -->
+        <div id="psychology" class="view">
+            <div class="card">
+                <h2>🧠 Psychology Insights</h2>
+                <div id="psychologyContent"></div>
+            </div>
+        </div>
+
+        <!-- Export View -->
+        <div id="export" class="view">
+            <div class="card">
+                <h2>📤 Export/Import</h2>
+                <p style="margin-bottom: 20px; color: var(--color-text-secondary);">
+                    Export your trading journal data for AI analysis, backup, or sharing with mentors
+                </p>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px;">
+                    <button onclick="exportData()">📥 Export as JSON</button>
+                    <button onclick="exportCSV()">📊 Export as CSV</button>
+                    <button onclick="clearData()" class="danger">🗑️ Clear All Data</button>
+                </div>
+
+                <!-- AI Analysis Prompts Section -->
+                <div style="background: var(--color-bg-secondary); padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+                    <h3 style="margin: 0 0 12px 0; font-size: 20px;">🤖 AI Analysis Prompts</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 20px; font-size: 14px;">
+                        Copy these prompts along with your exported data to get AI-powered insights
+                    </p>
+
+                    <!-- General Analysis Prompt -->
+                    <div style="background: var(--color-bg-tertiary); padding: 16px; border-radius: 8px; border-left: 4px solid var(--color-accent-blue); margin-bottom: 16px;">
+                        <h4 style="margin: 0 0 12px 0; font-size: 16px;">📊 General Analysis Prompt</h4>
+                        <p id="generalPrompt" style="color: var(--color-text-secondary); font-size: 13px; line-height: 1.6; margin-bottom: 12px;">
+                            "Analyze my ICT trading journal data and provide insights on: 1) Win rate patterns by ICT concepts used, 2) Emotional state correlations with trade outcomes, 3) Best performing setups, 4) Areas for improvement, 5) Risk management effectiveness. Here's my data:"
+                        </p>
+                        <button onclick="copyPrompt('generalPrompt')" style="padding: 8px 16px; background: var(--color-accent-blue); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px;">
+                            📋 Copy Prompt
+                        </button>
+                    </div>
+
+                    <!-- Psychology Analysis Prompt -->
+                    <div style="background: var(--color-bg-tertiary); padding: 16px; border-radius: 8px; border-left: 4px solid #8b5cf6; margin-bottom: 16px;">
+                        <h4 style="margin: 0 0 12px 0; font-size: 16px;">🧠 Psychology Analysis Prompt</h4>
+                        <p id="psychologyPrompt" style="color: var(--color-text-secondary); font-size: 13px; line-height: 1.6; margin-bottom: 12px;">
+                            "Focus on the emotional and psychological aspects of my trading. Analyze: 1) Which emotional states lead to best/worst performance, 2) Patterns of FOMO or revenge trading, 3) Emotional consistency across winning/losing streaks, 4) Recommendations for mental discipline. Data:"
+                        </p>
+                        <button onclick="copyPrompt('psychologyPrompt')" style="padding: 8px 16px; background: #8b5cf6; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px;">
+                            📋 Copy Prompt
+                        </button>
+                    </div>
+
+                    <!-- ICT Concepts Prompt -->
+                    <div style="background: var(--color-bg-tertiary); padding: 16px; border-radius: 8px; border-left: 4px solid var(--color-accent-green); margin-bottom: 16px;">
+                        <h4 style="margin: 0 0 12px 0; font-size: 16px;">💡 ICT Concepts Prompt</h4>
+                        <p id="ictPrompt" style="color: var(--color-text-secondary); font-size: 13px; line-height: 1.6; margin-bottom: 12px;">
+                            "Analyze my usage of ICT trading concepts. Provide: 1) Win rate by each concept (Order Blocks, FVG, Liquidity Sweeps, etc.), 2) Most profitable concept combinations, 3) Concepts I'm underutilizing, 4) Setup quality scores, 5) Recommendations for concept mastery. Trading data:"
+                        </p>
+                        <button onclick="copyPrompt('ictPrompt')" style="padding: 8px 16px; background: var(--color-accent-green); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px;">
+                            📋 Copy Prompt
+                        </button>
+                    </div>
+
+                    <!-- How to Use -->
+                    <div style="background: var(--color-bg-elevated); padding: 16px; border-radius: 8px; margin-top: 20px;">
+                        <h4 style="margin: 0 0 8px 0; font-size: 14px;">📝 How to Use</h4>
+                        <ol style="color: var(--color-text-secondary); font-size: 13px; line-height: 1.8; margin: 8px 0 0 20px; padding: 0;">
+                            <li>Export your data as JSON</li>
+                            <li>Copy one of the prompts above</li>
+                            <li>Paste the prompt to Claude or ChatGPT</li>
+                            <li>Attach or paste your exported JSON data</li>
+                            <li>Get detailed AI-powered analysis and recommendations</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal for viewing screenshots -->
+    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+        <button class="image-modal-close" onclick="closeImageModal(); event.stopPropagation();">×</button>
+        <img id="modalImage" src="" alt="Screenshot">
+    </div>
+
+    <script>
+        // ========================================
+        // AUTHENTICATION CHECK
+        // ========================================
+        
+        // Check if user is logged in
+        const currentUser = localStorage.getItem('currentUser');
+        if (!currentUser) {
+            // Not logged in - redirect to auth page
+            window.location.href = 'index.html';
+        }
+        
+        // Get user-specific storage key
+        const USER_TRADES_KEY = `trades_${currentUser}`;
+        
+        // User-specific storage helper functions
+        function getUserTrades() {
+            return JSON.parse(localStorage.getItem(USER_TRADES_KEY) || '[]');
+        }
+        
+        function saveUserTrades(trades) {
+            localStorage.setItem(USER_TRADES_KEY, JSON.stringify(trades));
+        }
+        
+        // Logout function
+        function logout() {
+            if (confirm('⚠️ Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Display username on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const usernameElement = document.getElementById('currentUsername');
+            if (usernameElement && currentUser) {
+                usernameElement.textContent = currentUser;
+            }
+        });
+        
+        // ========================================
+        // AI PROMPT COPY FUNCTIONS
+        // ========================================
+        
+        // Copy prompt function
+        function copyPrompt(promptId) {
+            const promptText = document.getElementById(promptId).textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert('✅ Prompt copied to clipboard!');
+                }).catch(() => {
+                    fallbackCopy(promptText);
+                });
+            } else {
+                fallbackCopy(promptText);
+            }
+        }
+        
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                alert('✅ Prompt copied!');
+            } catch (err) {
+                alert('❌ Copy failed. Please copy manually.');
+            }
+            document.body.removeChild(textarea);
+        }
+        
+        // ========================================
+        // ORIGINAL CODE CONTINUES BELOW
+        // ========================================
+        
+        // IndexedDB Setup for Unlimited Storage
+        const DB_NAME = 'ICTJournal';
+        const DB_VERSION = 1;
+        let db;
+
+        // Initialize IndexedDB
+        async function initDB() {
+            return new Promise((resolve, reject) => {
+                try {
+                    const request = indexedDB.open(DB_NAME, DB_VERSION);
+                    
+                    request.onerror = (event) => {
+                        console.error('IndexedDB error:', event.target.error);
+                        reject(event.target.error);
+                    };
+                    
+                    request.onsuccess = (event) => {
+                        db = event.target.result;
+                        console.log('✅ IndexedDB ready - Unlimited storage!');
+                        resolve(db);
+                    };
+                    
+                    request.onupgradeneeded = (e) => {
+                        try {
+                            const database = e.target.result;
+                            if (!database.objectStoreNames.contains('trades')) {
+                                const objectStore = database.createObjectStore('trades', { keyPath: 'id' });
+                                console.log('✅ Created trades object store');
+                            }
+                        } catch (error) {
+                            console.error('Error creating object store:', error);
+                            reject(error);
+                        }
+                    };
+                } catch (error) {
+                    console.error('Error opening IndexedDB:', error);
+                    reject(error);
+                }
+            });
+        }
+
+        // Compress image to reduce storage size (70-90% reduction)
+        async function compressImage(dataUrl, maxWidth = 800, quality = 0.6) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > maxWidth) {
+                        height = (height * maxWidth) / width;
+                        width = maxWidth;
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.src = dataUrl;
+            });
+        }
+
+        // Save trade to IndexedDB (with localStorage fallback)
+        async function saveTradeDB(trade) {
+            try {
+                if (!db) await initDB();
+                
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(['trades'], 'readwrite');
+                    const store = tx.objectStore('trades');
+                    const request = store.put(trade);
+                    
+                    request.onsuccess = () => {
+                        console.log('✅ Trade saved to IndexedDB');
+                        resolve();
+                    };
+                    request.onerror = (event) => {
+                        console.error('IndexedDB save error:', event.target.error);
+                        reject(event.target.error);
+                    };
+                });
+            } catch (error) {
+                // Fallback to localStorage if IndexedDB fails
+                console.warn('IndexedDB failed, using localStorage fallback:', error);
+                try {
+                    let trades = getUserTrades();  // ← USER-SPECIFIC
+                    const index = trades.findIndex(t => t.id === trade.id);
+                    if (index >= 0) {
+                        trades[index] = trade;
+                    } else {
+                        trades.push(trade);
+                    }
+                    saveUserTrades(trades);  // ← USER-SPECIFIC
+                    console.log('✅ Trade saved to localStorage (fallback)');
+                } catch (localError) {
+                    console.error('Both IndexedDB and localStorage failed:', localError);
+                    throw new Error('Unable to save trade. Storage is full or unavailable.');
+                }
+            }
+        }
+
+        // Get all trades from IndexedDB (with localStorage fallback)
+        async function getAllTradesDB() {
+            try {
+                if (!db) await initDB();
+                
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(['trades'], 'readonly');
+                    const store = tx.objectStore('trades');
+                    const request = store.getAll();
+                    
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = (event) => reject(event.target.error);
+                });
+            } catch (error) {
+                // Fallback to localStorage
+                console.warn('IndexedDB failed, using localStorage fallback:', error);
+                try {
+                    const trades = getUserTrades();  // ← USER-SPECIFIC
+                    return trades;
+                } catch (localError) {
+                    console.error('Both IndexedDB and localStorage failed:', localError);
+                    return [];
+                }
+            }
+        }
+
+        // Delete trade from IndexedDB (with localStorage fallback)
+        async function deleteTradeDB(id) {
+            try {
+                if (!db) await initDB();
+                
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(['trades'], 'readwrite');
+                    const store = tx.objectStore('trades');
+                    const request = store.delete(id);
+                    
+                    request.onsuccess = () => {
+                        console.log('✅ Trade deleted from IndexedDB');
+                        resolve();
+                    };
+                    request.onerror = (event) => reject(event.target.error);
+                });
+            } catch (error) {
+                // Fallback to localStorage
+                console.warn('IndexedDB failed, using localStorage fallback:', error);
+                try {
+                    let trades = getUserTrades();  // ← USER-SPECIFIC
+                    trades = trades.filter(t => t.id !== id);
+                    saveUserTrades(trades);  // ← USER-SPECIFIC
+                    console.log('✅ Trade deleted from localStorage (fallback)');
+                } catch (localError) {
+                    console.error('Both IndexedDB and localStorage failed:', localError);
+                    throw new Error('Unable to delete trade.');
+                }
+            }
+        }
+
+        // Clear all trades (with localStorage fallback)
+        async function clearAllDB() {
+            try {
+                if (!db) await initDB();
+                
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(['trades'], 'readwrite');
+                    const store = tx.objectStore('trades');
+                    const request = store.clear();
+                    
+                    request.onsuccess = () => {
+                        console.log('✅ All trades cleared from IndexedDB');
+                        resolve();
+                    };
+                    request.onerror = (event) => reject(event.target.error);
+                });
+            } catch (error) {
+                // Fallback to localStorage
+                console.warn('IndexedDB failed, using localStorage fallback:', error);
+                try {
+                    localStorage.removeItem(USER_TRADES_KEY);  // ← USER-SPECIFIC
+                    console.log('✅ All trades cleared from localStorage (fallback)');
+                } catch (localError) {
+                    console.error('Both IndexedDB and localStorage failed:', localError);
+                    throw new Error('Unable to clear trades.');
+                }
+            }
+        }
+
+        // Initialize on page load
+        initDB();
+
+        let currentEditId = null;
+        let screenshotData = {
+            before: null,
+            after: null
+        };
+
+        async function handleScreenshot(input, type) {
+            const file = input.files[0];
+            if (!file) return;
+
+            // Check file size
+            if (file.size > 5 * 1024 * 1024) {
+                alert('⚠️ Image too large! Please use an image smaller than 5MB');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                // Compress the image before storing (70-90% size reduction)
+                const compressed = await compressImage(e.target.result, 800, 0.6);
+                screenshotData[type] = compressed;
+                displayScreenshot(type, compressed);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function displayScreenshot(type, dataUrl) {
+            const preview = document.getElementById(`${type}Preview`);
+            preview.innerHTML = `
+                <div class="screenshot-item">
+                    <img src="${dataUrl}" alt="${type} screenshot" onclick="openImageModal('${dataUrl}')">
+                    <div class="label">${type === 'before' ? 'Before Trade' : 'After Trade'}</div>
+                    <button class="remove-btn" onclick="removeScreenshot('${type}'); event.stopPropagation();">×</button>
+                </div>
+            `;
+        }
+
+        function removeScreenshot(type) {
+            screenshotData[type] = null;
+            document.getElementById(`${type}Preview`).innerHTML = '';
+            document.getElementById(`${type}Screenshot`).value = '';
+        }
+
+        function openImageModal(dataUrl) {
+            document.getElementById('modalImage').src = dataUrl;
+            document.getElementById('imageModal').classList.add('active');
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').classList.remove('active');
+        }
+
+        function showView(viewId, clickedButton) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+            
+            // Remove active from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected view
+            const viewElement = document.getElementById(viewId);
+            if (viewElement) {
+                viewElement.classList.add('active');
+            } else {
+                console.error('View not found:', viewId);
+                return;
+            }
+            
+            // Set active tab
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            } else if (typeof event !== 'undefined' && event.target) {
+                event.target.classList.add('active');
+            } else {
+                // Fallback: find button by onclick attribute
+                const buttons = document.querySelectorAll('.nav-tab');
+                buttons.forEach(btn => {
+                    const onclick = btn.getAttribute('onclick');
+                    if (onclick && onclick.includes(`'${viewId}'`)) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+            
+            // Load data for specific views
+            try {
+                if (viewId === 'trade-journal') loadTrades();
+                if (viewId === 'analysis') loadStats();
+                if (viewId === 'psychology') loadPsychology();
+            } catch (error) {
+                console.error('Error loading view data:', error);
+            }
+        }
+
+        function toggleConcept(btn) {
+            btn.classList.toggle('selected');
+        }
+
+        async function saveTrade() {
+            try {
+                const trade = {
+                    id: currentEditId || Date.now(),
+                    pair: document.getElementById('pair').value,
+                    direction: document.getElementById('direction').value,
+                    entryDate: document.getElementById('entryDate').value,
+                    session: document.getElementById('session').value,
+                    timeframe: document.getElementById('timeframe').value,
+                    entry: document.getElementById('entry').value,
+                    sl: document.getElementById('sl').value,
+                    tp: document.getElementById('tp').value,
+                    lotsize: document.getElementById('lotsize').value,
+                    result: document.getElementById('result').value,
+                    rr: document.getElementById('rr').value,
+                    emotionBefore: document.getElementById('emotionBefore').value,
+                    emotionBeforeIntensity: document.getElementById('emotionBeforeIntensity').value,
+                    emotionBeforeNotes: document.getElementById('emotionBeforeNotes').value,
+                    emotionAfter: document.getElementById('emotionAfter').value,
+                    emotionAfterIntensity: document.getElementById('emotionAfterIntensity').value,
+                    emotionAfterNotes: document.getElementById('emotionAfterNotes').value,
+                    notes: document.getElementById('notes').value,
+                    concepts: Array.from(document.querySelectorAll('.concept-btn.selected')).map(btn => btn.textContent),
+                    screenshotBefore: screenshotData.before,
+                    screenshotAfter: screenshotData.after,
+                    timestamp: new Date().toISOString()
+                };
+
+                if (!trade.pair || !trade.direction || !trade.entry || !trade.sl || !trade.tp) {
+                    alert('❌ Please fill in all required fields (Pair, Direction, Entry, SL, TP)');
+                    return;
+                }
+
+                // Ensure DB is initialized
+                if (!db) await initDB();
+                
+                await saveTradeDB(trade);
+                currentEditId = null; // Reset edit mode
+                resetForm();
+                alert('✅ Trade saved successfully!');
+            } catch (error) {
+                console.error('Save error:', error);
+                alert('❌ Error saving trade: ' + error.message);
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('pair').value = '';
+            document.getElementById('direction').value = '';
+            document.getElementById('entryDate').value = '';
+            document.getElementById('session').value = '';
+            document.getElementById('timeframe').value = '';
+            document.getElementById('entry').value = '';
+            document.getElementById('sl').value = '';
+            document.getElementById('tp').value = '';
+            document.getElementById('lotsize').value = '';
+            document.getElementById('result').value = '';
+            document.getElementById('rr').value = '';
+            document.getElementById('emotionBefore').value = '';
+            document.getElementById('emotionBeforeIntensity').value = '5';
+            document.getElementById('emotionBeforeValue').textContent = '5';
+            document.getElementById('emotionBeforeNotes').value = '';
+            document.getElementById('emotionAfter').value = '';
+            document.getElementById('emotionAfterIntensity').value = '5';
+            document.getElementById('emotionAfterValue').textContent = '5';
+            document.getElementById('emotionAfterNotes').value = '';
+            document.getElementById('notes').value = '';
+            document.querySelectorAll('.concept-btn.selected').forEach(btn => btn.classList.remove('selected'));
+            
+            // Reset screenshots
+            screenshotData = { before: null, after: null };
+            document.getElementById('beforePreview').innerHTML = '';
+            document.getElementById('afterPreview').innerHTML = '';
+            document.getElementById('beforeScreenshot').value = '';
+            document.getElementById('afterScreenshot').value = '';
+        }
+
+        async function editTrade(id) {
+            const trades = await getAllTradesDB();
+            const trade = trades.find(t => t.id === id);
+            if (!trade) return;
+
+            currentEditId = id;
+            document.getElementById('pair').value = trade.pair;
+            document.getElementById('direction').value = trade.direction;
+            document.getElementById('entryDate').value = trade.entryDate;
+            document.getElementById('session').value = trade.session || '';
+            document.getElementById('timeframe').value = trade.timeframe || '';
+            document.getElementById('entry').value = trade.entry;
+            document.getElementById('sl').value = trade.sl;
+            document.getElementById('tp').value = trade.tp;
+            document.getElementById('lotsize').value = trade.lotsize;
+            document.getElementById('result').value = trade.result || '';
+            document.getElementById('rr').value = trade.rr || '';
+            document.getElementById('emotionBefore').value = trade.emotionBefore || '';
+            document.getElementById('emotionBeforeIntensity').value = trade.emotionBeforeIntensity || '5';
+            document.getElementById('emotionBeforeValue').textContent = trade.emotionBeforeIntensity || '5';
+            document.getElementById('emotionBeforeNotes').value = trade.emotionBeforeNotes || '';
+            document.getElementById('emotionAfter').value = trade.emotionAfter || '';
+            document.getElementById('emotionAfterIntensity').value = trade.emotionAfterIntensity || '5';
+            document.getElementById('emotionAfterValue').textContent = trade.emotionAfterIntensity || '5';
+            document.getElementById('emotionAfterNotes').value = trade.emotionAfterNotes || '';
+            document.getElementById('notes').value = trade.notes;
+
+            document.querySelectorAll('.concept-btn').forEach(btn => {
+                if (trade.concepts && trade.concepts.includes(btn.textContent)) {
+                    btn.classList.add('selected');
+                }
+            });
+
+            // Load screenshots
+            screenshotData.before = trade.screenshotBefore || null;
+            screenshotData.after = trade.screenshotAfter || null;
+            
+            if (trade.screenshotBefore) {
+                displayScreenshot('before', trade.screenshotBefore);
+            }
+            if (trade.screenshotAfter) {
+                displayScreenshot('after', trade.screenshotAfter);
+            }
+
+            showView('new-trade');
+            window.scrollTo(0, 0);
+        }
+
+        async function deleteTrade(id) {
+            if (!confirm('⚠️ Are you sure you want to delete this trade?')) return;
+            
+            try {
+                await deleteTradeDB(id);
+                loadTrades();
+            } catch (error) {
+                console.error('Delete error:', error);
+                alert('❌ Error deleting trade');
+            }
+        }
+
+        async function loadTrades() {
+            const trades = await getAllTradesDB();
+            const container = document.getElementById('journalContent');
+
+            if (trades.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📝</div>
+                        <p>No trades recorded yet. Start by adding your first trade!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Sort by date (newest first)
+            trades.sort((a, b) => new Date(b.entryDate || b.timestamp) - new Date(a.entryDate || a.timestamp));
+
+            container.innerHTML = trades.reverse().map(trade => {
+                let resultClass = '';
+                if (trade.result === 'Win') resultClass = 'win';
+                else if (trade.result === 'Loss') resultClass = 'loss';
+                else if (trade.result === 'Breakeven') resultClass = 'breakeven';
+
+                return `
+                    <div class="trade-card ${resultClass}">
+                        <div class="trade-card-header">
+                            <h3 style="margin: 0;">${trade.pair} - ${trade.direction}</h3>
+                            <span style="color: var(--color-text-muted);">
+                                ${trade.entryDate ? new Date(trade.entryDate).toLocaleDateString() : new Date(trade.timestamp).toLocaleDateString()}
+                            </span>
+                        </div>
+                        <div class="trade-card-meta">
+                            <div><strong>Session:</strong> ${trade.session || 'N/A'}</div>
+                            <div><strong>Entry:</strong> ${trade.entry}</div>
+                            <div><strong>SL:</strong> ${trade.sl}</div>
+                            <div><strong>TP:</strong> ${trade.tp}</div>
+                            <div><strong>Lot:</strong> ${trade.lotsize}</div>
+                            <div><strong>Result:</strong> ${trade.result || 'Pending'}</div>
+                            <div><strong>R:R:</strong> ${trade.rr || 'N/A'}</div>
+                        </div>
+                        ${trade.concepts && trade.concepts.length > 0 ? `
+                            <div style="margin-bottom: 12px;">
+                                <strong style="color: var(--color-accent-purple);">ICT Concepts:</strong> 
+                                ${trade.concepts.join(', ')}
+                            </div>
+                        ` : ''}
+                        ${trade.emotionBefore ? `
+                            <div style="margin-bottom: 8px; font-size: 13px;">
+                                <strong>Before:</strong> ${trade.emotionBefore} (Intensity: ${trade.emotionBeforeIntensity}/10)
+                            </div>
+                        ` : ''}
+                        ${trade.emotionAfter ? `
+                            <div style="margin-bottom: 8px; font-size: 13px;">
+                                <strong>After:</strong> ${trade.emotionAfter} (Intensity: ${trade.emotionAfterIntensity}/10)
+                            </div>
+                        ` : ''}
+                        ${(trade.screenshotBefore || trade.screenshotAfter) ? `
+                            <div style="margin: 12px 0;">
+                                <strong style="color: var(--color-accent-blue);">📸 Screenshots:</strong>
+                                <div style="display: flex; gap: 8px; margin-top: 8px; overflow-x: auto;">
+                                    ${trade.screenshotBefore ? `
+                                        <div style="position: relative;">
+                                            <img src="${trade.screenshotBefore}" 
+                                                 onclick="openImageModal('${trade.screenshotBefore}')"
+                                                 style="width: 120px; height: 90px; object-fit: cover; border-radius: 6px; cursor: zoom-in; border: 1px solid var(--color-border);">
+                                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); padding: 2px 4px; font-size: 10px; text-align: center; border-radius: 0 0 6px 6px;">
+                                                Before
+                                            </div>
+                                        </div>
+                                    ` : ''}
+                                    ${trade.screenshotAfter ? `
+                                        <div style="position: relative;">
+                                            <img src="${trade.screenshotAfter}" 
+                                                 onclick="openImageModal('${trade.screenshotAfter}')"
+                                                 style="width: 120px; height: 90px; object-fit: cover; border-radius: 6px; cursor: zoom-in; border: 1px solid var(--color-border);">
+                                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); padding: 2px 4px; font-size: 10px; text-align: center; border-radius: 0 0 6px 6px;">
+                                                After
+                                            </div>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        ` : ''}
+                        ${trade.notes ? `
+                            <div style="background: var(--color-bg-secondary); padding: 12px; border-radius: 8px; font-size: 13px; margin-top: 12px;">
+                                ${trade.notes}
+                            </div>
+                        ` : ''}
+                        <div class="trade-card-actions">
+                            <button onclick="editTrade(${trade.id})" class="secondary">✏️ Edit</button>
+                            <button onclick="deleteTrade(${trade.id})" class="danger">🗑️ Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function loadStats() {
+            const trades = await getAllTradesDB();
+            const container = document.getElementById('statsContent');
+
+            if (trades.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📈</div>
+                        <p>Record some trades to see your statistics and analysis!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const totalTrades = trades.length;
+            const wins = trades.filter(t => t.result === 'Win').length;
+            const losses = trades.filter(t => t.result === 'Loss').length;
+            const breakevens = trades.filter(t => t.result === 'Breakeven').length;
+            const winRate = totalTrades > 0 ? ((wins / totalTrades) * 100).toFixed(1) : 0;
+
+            // Session stats
+            const sessionStats = {};
+            trades.forEach(t => {
+                if (t.session) {
+                    if (!sessionStats[t.session]) {
+                        sessionStats[t.session] = { total: 0, wins: 0 };
+                    }
+                    sessionStats[t.session].total++;
+                    if (t.result === 'Win') sessionStats[t.session].wins++;
+                }
+            });
+
+            // Pair stats
+            const pairStats = {};
+            trades.forEach(t => {
+                if (t.pair) {
+                    if (!pairStats[t.pair]) {
+                        pairStats[t.pair] = { total: 0, wins: 0 };
+                    }
+                    pairStats[t.pair].total++;
+                    if (t.result === 'Win') pairStats[t.pair].wins++;
+                }
+            });
+
+            // Most used concepts
+            const conceptCounts = {};
+            trades.forEach(t => {
+                if (t.concepts) {
+                    t.concepts.forEach(c => {
+                        conceptCounts[c] = (conceptCounts[c] || 0) + 1;
+                    });
+                }
+            });
+            const topConcepts = Object.entries(conceptCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+
+            // NEW: Performance by Day
+            const dailyPerformance = {};
+            trades.forEach(t => {
+                if (!t.entryDate || !t.result) return;
+                const date = t.entryDate;
+                if (!dailyPerformance[date]) {
+                    dailyPerformance[date] = { total: 0, wins: 0, losses: 0, breakeven: 0 };
+                }
+                dailyPerformance[date].total++;
+                if (t.result === 'Win') dailyPerformance[date].wins++;
+                else if (t.result === 'Loss') dailyPerformance[date].losses++;
+                else if (t.result === 'Breakeven') dailyPerformance[date].breakeven++;
+            });
+
+            // Sort dates (newest first)
+            const sortedDates = Object.keys(dailyPerformance).sort((a, b) => new Date(b) - new Date(a));
+
+            container.innerHTML = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">${totalTrades}</div>
+                        <div class="stat-label">Total Trades</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: var(--color-accent-green);">${wins}</div>
+                        <div class="stat-label">Wins</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: var(--color-accent-red);">${losses}</div>
+                        <div class="stat-label">Losses</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${winRate}%</div>
+                        <div class="stat-label">Win Rate</div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 24px;">📅 Day of Week Performance</h3>
+                <div style="background: var(--color-bg-tertiary); padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+                    ${(() => {
+                        // Calculate performance by day of week
+                        const dayOfWeekStats = {
+                            'Monday': { total: 0, wins: 0, losses: 0 },
+                            'Tuesday': { total: 0, wins: 0, losses: 0 },
+                            'Wednesday': { total: 0, wins: 0, losses: 0 },
+                            'Thursday': { total: 0, wins: 0, losses: 0 },
+                            'Friday': { total: 0, wins: 0, losses: 0 }
+                        };
+
+                        trades.forEach(t => {
+                            if (!t.entryDate || !t.result) return;
+                            
+                            const date = new Date(t.entryDate);
+                            const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+                            
+                            if (dayOfWeekStats[dayName]) {
+                                dayOfWeekStats[dayName].total++;
+                                if (t.result === 'Win') dayOfWeekStats[dayName].wins++;
+                                else if (t.result === 'Loss') dayOfWeekStats[dayName].losses++;
+                            }
+                        });
+
+                        // Sort by total trades (most active days first)
+                        const sortedDays = Object.entries(dayOfWeekStats)
+                            .filter(([day, stats]) => stats.total > 0)
+                            .sort((a, b) => b[1].total - a[1].total);
+
+                        return sortedDays.length > 0 ? sortedDays.map(([day, stats]) => {
+                            const winRate = ((stats.wins / stats.total) * 100).toFixed(1);
+                            const color = winRate >= 50 ? 'var(--color-accent-green)' : 'var(--color-accent-red)';
+                            
+                            // Emoji for each day
+                            const dayEmoji = {
+                                'Monday': '📘',
+                                'Tuesday': '📗',
+                                'Wednesday': '📙',
+                                'Thursday': '📕',
+                                'Friday': '📔'
+                            };
+                            
+                            return `
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; margin-bottom: 10px; background: var(--color-bg-secondary); border-radius: 8px; border-left: 4px solid ${color};">
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: 600; font-size: 16px; margin-bottom: 4px;">
+                                            ${dayEmoji[day] || '📅'} ${day}
+                                        </div>
+                                        <div style="font-size: 13px; color: var(--color-text-muted);">
+                                            <span style="color: var(--color-accent-green);">${stats.wins}W</span> / 
+                                            <span style="color: var(--color-accent-red);">${stats.losses}L</span>
+                                            • ${stats.total} trades
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="font-size: 28px; font-weight: 700; color: ${color};">
+                                            ${winRate}%
+                                        </div>
+                                        <div style="font-size: 11px; color: var(--color-text-muted);">
+                                            Win Rate
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('') : '<p style="color: var(--color-text-muted); text-align: center; padding: 20px;">Record trades to see weekly performance</p>';
+                    })()}
+                </div>
+
+                <h3 style="margin-top: 24px;">📅 Performance by Day</h3>
+                <div style="background: var(--color-bg-tertiary); padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+                    ${sortedDates.length > 0 ? sortedDates.map(date => {
+                        const stats = dailyPerformance[date];
+                        const dayWinRate = ((stats.wins / stats.total) * 100).toFixed(1);
+                        const color = dayWinRate >= 50 ? 'var(--color-accent-green)' : 'var(--color-accent-red)';
+                        
+                        return `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; margin-bottom: 8px; background: var(--color-bg-secondary); border-radius: 8px;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: 4px;">
+                                        ${new Date(date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
+                                    </div>
+                                    <div style="font-size: 12px; color: var(--color-text-muted);">
+                                        <span style="color: var(--color-accent-green);">${stats.wins}W</span> / 
+                                        <span style="color: var(--color-accent-red);">${stats.losses}L</span>
+                                        ${stats.breakeven > 0 ? ` / <span style="color: var(--color-accent-yellow);">${stats.breakeven}BE</span>` : ''}
+                                        (${stats.total} trades)
+                                    </div>
+                                </div>
+                                <div style="font-size: 28px; font-weight: 700; color: ${color};">
+                                    ${dayWinRate}%
+                                </div>
+                            </div>
+                        `;
+                    }).join('') : '<p style="color: var(--color-text-muted); text-align: center; padding: 20px;">No daily data available</p>'}
+                </div>
+
+                <h3 style="margin-top: 24px;">📊 Performance by Session</h3>
+                <div class="stats-grid">
+                    ${Object.entries(sessionStats).map(([session, stats]) => {
+                        const sessionWinRate = ((stats.wins / stats.total) * 100).toFixed(1);
+                        return `
+                            <div class="stat-card">
+                                <div class="stat-value">${sessionWinRate}%</div>
+                                <div class="stat-label">${session} (${stats.wins}/${stats.total})</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+
+                <h3 style="margin-top: 24px;">💱 Performance by Pair</h3>
+                <div class="stats-grid">
+                    ${Object.entries(pairStats).map(([pair, stats]) => {
+                        const pairWinRate = ((stats.wins / stats.total) * 100).toFixed(1);
+                        return `
+                            <div class="stat-card">
+                                <div class="stat-value">${pairWinRate}%</div>
+                                <div class="stat-label">${pair} (${stats.wins}/${stats.total})</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+
+                ${topConcepts.length > 0 ? `
+                    <h3 style="margin-top: 24px;">💡 ICT Concepts Analysis</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 16px;">
+                        ${topConcepts.slice(0, 6).map(([concept, count], index) => {
+                            // Calculate win rate for this concept
+                            const conceptTrades = trades.filter(t => t.concepts && t.concepts.includes(concept));
+                            const conceptWins = conceptTrades.filter(t => t.result === 'Win').length;
+                            const conceptWinRate = conceptTrades.length > 0 ? ((conceptWins / conceptTrades.length) * 100).toFixed(1) : 0;
+                            const winRateColor = conceptWinRate >= 50 ? 'var(--color-accent-green)' : 'var(--color-accent-red)';
+                            
+                            return `
+                                <div style="background: var(--color-bg-tertiary); padding: 16px; border-radius: 12px; border-left: 4px solid var(--color-accent-blue);">
+                                    <div style="font-weight: 600; font-size: 16px; margin-bottom: 8px; color: var(--color-accent-blue);">
+                                        ${index + 1}. ${concept}
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                        <span style="font-size: 13px; color: var(--color-text-muted);">Usage</span>
+                                        <span style="font-weight: 600; color: var(--color-text-primary);">${count} times</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="font-size: 13px; color: var(--color-text-muted);">Win Rate</span>
+                                        <span style="font-weight: 700; font-size: 18px; color: ${winRateColor};">${conceptWinRate}%</span>
+                                    </div>
+                                    <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 4px;">
+                                        ${conceptWins}W / ${conceptTrades.length - conceptWins}L
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+
+                    <h3 style="margin-top: 24px;">🔥 Best Performing Concepts</h3>
+                    <div style="background: var(--color-bg-tertiary); padding: 20px; border-radius: 12px; margin-bottom: 16px;">
+                        ${(() => {
+                            // Calculate win rate for each concept
+                            const conceptPerformance = {};
+                            trades.forEach(t => {
+                                if (t.concepts && t.result) {
+                                    t.concepts.forEach(concept => {
+                                        if (!conceptPerformance[concept]) {
+                                            conceptPerformance[concept] = { wins: 0, total: 0 };
+                                        }
+                                        conceptPerformance[concept].total++;
+                                        if (t.result === 'Win') conceptPerformance[concept].wins++;
+                                    });
+                                }
+                            });
+
+                            // Sort by win rate, then by usage
+                            const sortedConcepts = Object.entries(conceptPerformance)
+                                .map(([concept, stats]) => ({
+                                    concept,
+                                    winRate: (stats.wins / stats.total * 100).toFixed(1),
+                                    wins: stats.wins,
+                                    total: stats.total
+                                }))
+                                .filter(c => c.total >= 2) // Only concepts used 2+ times
+                                .sort((a, b) => b.winRate - a.winRate)
+                                .slice(0, 5);
+
+                            return sortedConcepts.length > 0 ? sortedConcepts.map((item, index) => `
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; margin-bottom: 8px; background: var(--color-bg-secondary); border-radius: 8px;">
+                                    <div>
+                                        <div style="font-weight: 600;">${index + 1}. ${item.concept}</div>
+                                        <div style="font-size: 12px; color: var(--color-text-muted);">
+                                            ${item.wins}W / ${item.total - item.wins}L (${item.total} trades)
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 24px; font-weight: 700; color: var(--color-accent-green);">
+                                        ${item.winRate}%
+                                    </div>
+                                </div>
+                            `).join('') : '<p style="color: var(--color-text-muted); text-align: center;">Need more trades to analyze performance</p>';
+                        })()}
+                    </div>
+
+                    <h3 style="margin-top: 24px;">📊 Concept Combinations</h3>
+                    <div style="background: var(--color-bg-tertiary); padding: 20px; border-radius: 12px;">
+                        ${(() => {
+                            // Find most common concept combinations
+                            const combinations = {};
+                            trades.forEach(t => {
+                                if (t.concepts && t.concepts.length >= 2 && t.result) {
+                                    const combo = t.concepts.sort().join(' + ');
+                                    if (!combinations[combo]) {
+                                        combinations[combo] = { wins: 0, total: 0 };
+                                    }
+                                    combinations[combo].total++;
+                                    if (t.result === 'Win') combinations[combo].wins++;
+                                }
+                            });
+
+                            const topCombos = Object.entries(combinations)
+                                .map(([combo, stats]) => ({
+                                    combo,
+                                    winRate: (stats.wins / stats.total * 100).toFixed(1),
+                                    wins: stats.wins,
+                                    total: stats.total
+                                }))
+                                .filter(c => c.total >= 2)
+                                .sort((a, b) => b.total - a.total)
+                                .slice(0, 5);
+
+                            return topCombos.length > 0 ? topCombos.map((item, index) => {
+                                const color = item.winRate >= 50 ? 'var(--color-accent-green)' : 'var(--color-accent-red)';
+                                return `
+                                    <div style="padding: 12px; margin-bottom: 8px; background: var(--color-bg-secondary); border-radius: 8px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                            <div style="font-weight: 600; flex: 1;">${index + 1}. ${item.combo}</div>
+                                            <div style="font-size: 20px; font-weight: 700; color: ${color}; margin-left: 12px;">
+                                                ${item.winRate}%
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 12px; color: var(--color-text-muted);">
+                                            ${item.wins}W / ${item.total - item.wins}L • Used ${item.total} times
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('') : '<p style="color: var(--color-text-muted); text-align: center;">Use multiple concepts together to see combinations</p>';
+                        })()}
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        async function loadPsychology() {
+            const trades = await getAllTradesDB();
+            const container = document.getElementById('psychologyContent');
+
+            if (trades.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🧠</div>
+                        <p>Track your emotional patterns as you record more trades!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Emotion frequency analysis
+            const emotionsBefore = {};
+            const emotionsAfter = {};
+            
+            trades.forEach(t => {
+                if (t.emotionBefore) {
+                    emotionsBefore[t.emotionBefore] = (emotionsBefore[t.emotionBefore] || 0) + 1;
+                }
+                if (t.emotionAfter) {
+                    emotionsAfter[t.emotionAfter] = (emotionsAfter[t.emotionAfter] || 0) + 1;
+                }
+            });
+
+            // Emotion vs Result correlation
+            const emotionWinRate = {};
+            trades.forEach(t => {
+                if (t.emotionBefore && t.result) {
+                    if (!emotionWinRate[t.emotionBefore]) {
+                        emotionWinRate[t.emotionBefore] = { wins: 0, total: 0 };
+                    }
+                    emotionWinRate[t.emotionBefore].total++;
+                    if (t.result === 'Win') emotionWinRate[t.emotionBefore].wins++;
+                }
+            });
+
+            const bestEmotions = Object.entries(emotionWinRate)
+                .map(([emotion, stats]) => ({
+                    emotion,
+                    winRate: ((stats.wins / stats.total) * 100).toFixed(1),
+                    total: stats.total
+                }))
+                .sort((a, b) => b.winRate - a.winRate);
+
+            container.innerHTML = `
+                <div class="emotion-insight">
+                    <div class="emotion-insight-title">📊 Emotional Pattern Analysis</div>
+                    <p style="color: var(--color-text-secondary); font-size: 14px;">
+                        Understanding your emotional state before trading is key to improving consistency.
+                    </p>
+                </div>
+
+                <h3>😊 Best Performing Emotions</h3>
+                <div style="background: var(--color-bg-tertiary); padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+                    ${bestEmotions.slice(0, 5).map((item, index) => `
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);">
+                            <div>
+                                <div style="font-weight: 600;">${index + 1}. ${item.emotion}</div>
+                                <div style="font-size: 12px; color: var(--color-text-muted);">${item.total} trades</div>
+                            </div>
+                            <div style="font-size: 20px; font-weight: 700; color: var(--color-accent-green);">
+                                ${item.winRate}%
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <h3>🔍 Emotional Frequency</h3>
+                <div class="grid-2" style="margin-bottom: 24px;">
+                    <div style="background: var(--color-bg-tertiary); padding: 20px; border-radius: 12px;">
+                        <h4 style="margin-bottom: 16px; color: var(--color-accent-blue);">Before Trade</h4>
+                        ${Object.entries(emotionsBefore).map(([emotion, count]) => `
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span>${emotion}</span>
+                                <span style="color: var(--color-accent-blue); font-weight: 600;">${count}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="background: var(--color-bg-tertiary); padding: 20px; border-radius: 12px;">
+                        <h4 style="margin-bottom: 16px; color: var(--color-accent-purple);">After Trade</h4>
+                        ${Object.entries(emotionsAfter).map(([emotion, count]) => `
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span>${emotion}</span>
+                                <span style="color: var(--color-accent-purple); font-weight: 600;">${count}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="emotion-insight">
+                    <div class="emotion-insight-title">💡 Key Insights</div>
+                    <ul style="padding-left: 20px; color: var(--color-text-secondary); font-size: 14px;">
+                        <li style="margin-bottom: 8px;">Your most successful trades come from ${bestEmotions[0].emotion} emotional state</li>
+                        <li style="margin-bottom: 8px;">You've recorded ${trades.length} trades with emotional tracking</li>
+                        <li>Continue tracking emotions to identify patterns that affect performance</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        async function exportData() {
+            const trades = await getAllTradesDB();
+            const json = JSON.stringify(trades, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `trading-journal-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        async function exportCSV() {
+            const trades = await getAllTradesDB();
+            if (trades.length === 0) {
+                alert('❌ No trades to export');
+                return;
+            }
+
+            const headers = ['Date', 'Pair', 'Direction', 'Session', 'Entry', 'SL', 'TP', 'Lot', 'Result', 'R:R', 'Emotion Before', 'Emotion After', 'Concepts', 'Notes'];
+            const rows = trades.map(t => [
+                t.entryDate || new Date(t.timestamp).toLocaleDateString(),
+                t.pair,
+                t.direction,
+                t.session || '',
+                t.entry,
+                t.sl,
+                t.tp,
+                t.lotsize,
+                t.result || '',
+                t.rr || '',
+                t.emotionBefore || '',
+                t.emotionAfter || '',
+                (t.concepts || []).join('; '),
+                (t.notes || '').replace(/"/g, '""')
+            ]);
+
+            const csv = [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `trading-journal-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        async function clearData() {
+            if (confirm('⚠️ Are you sure you want to delete all trades? This cannot be undone!')) {
+                try {
+                    await clearAllDB();
+                    alert('✅ All data cleared successfully');
+                    loadTrades();
+                } catch (error) {
+                    console.error('Clear error:', error);
+                    alert('❌ Error clearing data');
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🐋 Pseudo-Whales ICT Trading Journal Pro loaded successfully!');
+        });
+    </script>
+</body>
+</html>
