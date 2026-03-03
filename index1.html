@@ -497,11 +497,11 @@
         </header>
 
         <nav class="nav-tabs">
-            <button type="button" class="nav-tab active" onclick="showView('new-trade', this)">📝 New Trade</button>
-            <button type="button" class="nav-tab" onclick="showView('trade-journal', this)">📚 Trade Journal</button>
-            <button type="button" class="nav-tab" onclick="showView('analysis', this)">📊 Analysis & Stats</button>
-            <button type="button" class="nav-tab" onclick="showView('psychology', this)">🧠 Psychology Insights</button>
-            <button type="button" class="nav-tab" onclick="showView('export', this)">📤 Export/Import</button>
+            <button class="nav-tab active" onclick="showView('new-trade')">📝 New Trade</button>
+            <button class="nav-tab" onclick="showView('trade-journal')">📚 Trade Journal</button>
+            <button class="nav-tab" onclick="showView('analysis')">📊 Analysis & Stats</button>
+            <button class="nav-tab" onclick="showView('psychology')">🧠 Psychology Insights</button>
+            <button class="nav-tab" onclick="showView('export')">📤 Export/Import</button>
         </nav>
 
         <!-- New Trade View -->
@@ -520,7 +520,6 @@
                             <option value="USDJPY">USD/JPY</option>
                             <option value="AUDUSD">AUD/USD</option>
                             <option value="XAUUSD">XAU/USD (Gold)</option>
-                            <option value="USDCAD">USD/CAD</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -585,10 +584,8 @@
 
                 <h3>💡 ICT Concepts Used</h3>
                 <div class="concept-grid">
-                    <button class="concept-btn" onclick="toggleConcept(this)">HTF POI</button>
                     <button class="concept-btn" onclick="toggleConcept(this)">Order Block</button>
                     <button class="concept-btn" onclick="toggleConcept(this)">Breaker Block</button>
-                    <button class="concept-btn" onclick="toggleConcept(this)">Judas Swing</button>
                     <button class="concept-btn" onclick="toggleConcept(this)">FVG (Fair Value Gap)</button>
                     <button class="concept-btn" onclick="toggleConcept(this)">Liquidity Sweep</button>
                     <button class="concept-btn" onclick="toggleConcept(this)">Market Structure Shift</button>
@@ -601,9 +598,8 @@
                     <button class="concept-btn" onclick="toggleConcept(this)">Unicorn Model</button>
                     <button class="concept-btn" onclick="toggleConcept(this)">CISD</button>
                     <button class="concept-btn" onclick="toggleConcept(this)">BISI / SIBI</button>
-                    <button class="concept-btn" onclick="toggleConcept(this)">MITIGATION BLOCK</button>
                     <button class="concept-btn" onclick="toggleConcept(this)">Silver Bullet</button>
-                    <button class="concept-btn" onclick="toggleConcept(this)">IRL-ERL</button>
+                    <button class="concept-btn" onclick="toggleConcept(this)">2022 Model</button>
                 </div>
 
                 <h3>🧠 Emotional State (Before Trade)</h3>
@@ -815,49 +811,6 @@
     </div>
 
     <script>
-        // ========================================
-        // AUTHENTICATION CHECK
-        // ========================================
-        
-        // Check if user is logged in
-        const currentUser = localStorage.getItem('currentUser');
-        if (!currentUser) {
-            // Not logged in - redirect to auth page
-            window.location.href = 'index.html';
-        }
-        
-        // Get user-specific storage key
-        const USER_TRADES_KEY = `trades_${currentUser}`;
-        
-        // User-specific storage helper functions
-        function getUserTrades() {
-            return JSON.parse(localStorage.getItem(USER_TRADES_KEY) || '[]');
-        }
-        
-        function saveUserTrades(trades) {
-            localStorage.setItem(USER_TRADES_KEY, JSON.stringify(trades));
-        }
-        
-        // Logout function
-        function logout() {
-            if (confirm('⚠️ Are you sure you want to logout?')) {
-                localStorage.removeItem('currentUser');
-                window.location.href = 'index.html';
-            }
-        }
-        
-        // Display username on page load
-        window.addEventListener('DOMContentLoaded', function() {
-            const usernameElement = document.getElementById('currentUsername');
-            if (usernameElement && currentUser) {
-                usernameElement.textContent = currentUser;
-            }
-        });
-        
-        // ========================================
-        // AI PROMPT COPY FUNCTIONS
-        // ========================================
-        
         // Copy prompt function
         function copyPrompt(promptId) {
             const promptText = document.getElementById(promptId).textContent;
@@ -888,6 +841,46 @@
             }
             document.body.removeChild(textarea);
         }
+        
+    <script>
+        // ========================================
+        // AUTHENTICATION CHECK
+        // ========================================
+        
+        // Check if user is logged in
+        const currentUser = localStorage.getItem('currentUser');
+        if (!currentUser) {
+            // Not logged in - redirect to auth page
+            window.location.href = 'auth-journal.html';
+        }
+        
+        // Get user-specific storage key
+        const USER_TRADES_KEY = `trades_${currentUser}`;
+        
+        // User-specific storage helper functions
+        function getUserTrades() {
+            return JSON.parse(localStorage.getItem(USER_TRADES_KEY) || '[]');
+        }
+        
+        function saveUserTrades(trades) {
+            localStorage.setItem(USER_TRADES_KEY, JSON.stringify(trades));
+        }
+        
+        // Logout function
+        function logout() {
+            if (confirm('⚠️ Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'auth-journal.html';
+            }
+        }
+        
+        // Display username on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const usernameElement = document.getElementById('currentUsername');
+            if (usernameElement && currentUser) {
+                usernameElement.textContent = currentUser;
+            }
+        });
         
         // ========================================
         // ORIGINAL CODE CONTINUES BELOW
@@ -1139,46 +1132,15 @@
             document.getElementById('imageModal').classList.remove('active');
         }
 
-        function showView(viewId, clickedButton) {
-            // Hide all views
+        function showView(viewId) {
             document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
-            
-            // Remove active from all tabs
             document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            event.target.classList.add('active');
             
-            // Show selected view
-            const viewElement = document.getElementById(viewId);
-            if (viewElement) {
-                viewElement.classList.add('active');
-            } else {
-                console.error('View not found:', viewId);
-                return;
-            }
-            
-            // Set active tab
-            if (clickedButton) {
-                clickedButton.classList.add('active');
-            } else if (typeof event !== 'undefined' && event.target) {
-                event.target.classList.add('active');
-            } else {
-                // Fallback: find button by onclick attribute
-                const buttons = document.querySelectorAll('.nav-tab');
-                buttons.forEach(btn => {
-                    const onclick = btn.getAttribute('onclick');
-                    if (onclick && onclick.includes(`'${viewId}'`)) {
-                        btn.classList.add('active');
-                    }
-                });
-            }
-            
-            // Load data for specific views
-            try {
-                if (viewId === 'trade-journal') loadTrades();
-                if (viewId === 'analysis') loadStats();
-                if (viewId === 'psychology') loadPsychology();
-            } catch (error) {
-                console.error('Error loading view data:', error);
-            }
+            if (viewId === 'trade-journal') loadTrades();
+            if (viewId === 'analysis') loadStats();
+            if (viewId === 'psychology') loadPsychology();
         }
 
         function toggleConcept(btn) {
