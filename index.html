@@ -220,7 +220,26 @@
         </div>
     </div>
     
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
     <script>
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyBAjw6t6oRJGEdYqHpuqIMDga0RpQJTRGA",
+            authDomain: "ict-trading-journal-system.firebaseapp.com",
+            projectId: "ict-trading-journal-system",
+            storageBucket: "ict-trading-journal-system.firebasestorage.app",
+            messagingSenderId: "542689001082",
+            appId: "1:542689001082:web:3d0bb80c9a3a06002fc5c3",
+            measurementId: "G-DNGJEEZ4FT"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // ကျန်တဲ့ function တွေကို အောက်မှာ ဆက်ရေးပါ...
         // Check if already logged in
         window.onload = function() {
             const currentUser = localStorage.getItem('currentUser');
@@ -279,154 +298,48 @@
         }
         
         // Sign Up Function
-        function signup() {
-            const username = document.getElementById('signupUsername').value.trim();
-            const email = document.getElementById('signupEmail').value.trim();
+            async function signup() {
+            const email = document.getElementById('signupEmail').value;
             const password = document.getElementById('signupPassword').value;
-            const confirmPassword = document.getElementById('signupConfirmPassword').value;
-            
             const errorDiv = document.getElementById('signupError');
-            const successDiv = document.getElementById('signupSuccess');
-            
-            // Validation
-            if (!username || !email || !password || !confirmPassword) {
-                errorDiv.textContent = '❌ All fields are required';
-                errorDiv.style.display = 'block';
-                successDiv.style.display = 'none';
-                return;
-            }
-            
-            if (username.length < 3) {
-                errorDiv.textContent = '❌ Username must be at least 3 characters';
-                errorDiv.style.display = 'block';
-                successDiv.style.display = 'none';
-                return;
-            }
-            
-            if (!email.includes('@')) {
-                errorDiv.textContent = '❌ Please enter a valid email';
-                errorDiv.style.display = 'block';
-                successDiv.style.display = 'none';
-                return;
-            }
-            
-            if (password.length < 6) {
-                errorDiv.textContent = '❌ Password must be at least 6 characters';
-                errorDiv.style.display = 'block';
-                successDiv.style.display = 'none';
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                errorDiv.textContent = '❌ Passwords do not match';
-                errorDiv.style.display = 'block';
-                successDiv.style.display = 'none';
-                return;
-            }
-            
-            // Check if user already exists
-            const users = JSON.parse(localStorage.getItem('users') || '{}');
-            
-            if (users[username]) {
-                errorDiv.textContent = '❌ Username already exists';
-                errorDiv.style.display = 'block';
-                successDiv.style.display = 'none';
-                return;
-            }
-            
-            // Check if email already exists
-            for (let user in users) {
-                if (users[user].email === email) {
-                    errorDiv.textContent = '❌ Email already registered';
-                    errorDiv.style.display = 'block';
-                    successDiv.style.display = 'none';
-                    return;
-                }
-            }
-            
-            // Create user
-            users[username] = {
-                email: email,
-                password: btoa(password), // Simple base64 encoding (not secure for production!)
-                createdAt: new Date().toISOString()
-            };
-            
-            localStorage.setItem('users', JSON.stringify(users));
-            
-            // Show success
-            errorDiv.style.display = 'none';
-            successDiv.textContent = '✅ Account created successfully! Please login.';
-            successDiv.style.display = 'block';
-            
-            // Clear form
-            document.getElementById('signupUsername').value = '';
-            document.getElementById('signupEmail').value = '';
-            document.getElementById('signupPassword').value = '';
-            document.getElementById('signupConfirmPassword').value = '';
-            document.getElementById('passwordStrength').textContent = '';
-            
-            // Auto switch to login after 2 seconds
-            setTimeout(() => {
+
+            try {
+                // Firebase မှာ အကောင့်သစ်ဆောက်ခြင်း
+                await auth.createUserWithEmailAndPassword(email, password);
+                alert('✅ အကောင့်ဖွင့်ခြင်း အောင်မြင်ပါသည်။ Login ပြန်ဝင်ပေးပါ။');
                 showLogin();
-            }, 2000);
+            } catch (error) {
+                errorDiv.textContent = '❌ ' + error.message;
+                errorDiv.style.display = 'block';
+            }
         }
+            
         
         // Login Function
-        function login() {
-            const usernameOrEmail = document.getElementById('loginUsername').value.trim();
+            async function login() {
+            const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
-            
             const errorDiv = document.getElementById('loginError');
-            
-            if (!usernameOrEmail || !password) {
-                errorDiv.textContent = '❌ Please enter username and password';
+
+            if (!email || !password) {
+                errorDiv.textContent = '❌ Please fill all fields';
                 errorDiv.style.display = 'block';
                 return;
             }
-            
-            const users = JSON.parse(localStorage.getItem('users') || '{}');
-            
-            // Find user by username or email
-            let foundUser = null;
-            let foundUsername = null;
-            
-            for (let username in users) {
-                if (username === usernameOrEmail || users[username].email === usernameOrEmail) {
-                    foundUser = users[username];
-                    foundUsername = username;
-                    break;
-                }
-            }
-            
-            if (!foundUser) {
-                errorDiv.textContent = '❌ User not found';
+
+            try {
+                // Firebase နဲ့ Login ဝင်ခြင်း
+                await auth.signInWithEmailAndPassword(email, password);
+                
+                // Login အောင်မြင်ရင် Journal Page ကို သွားမယ်
+                // သင့်ရဲ့ Journal File နာမည်ကို ict-journal-FIXED-TABS.html လို့ သေချာစစ်ပါ
+                window.location.href = 'index1.html'; 
+            } catch (error) {
+                console.error("Login error:", error);
+                errorDiv.textContent = '❌ Email သို့မဟုတ် Password မှားနေပါသည်';
                 errorDiv.style.display = 'block';
-                return;
             }
-            
-            // Check password
-            if (btoa(password) !== foundUser.password) {
-                errorDiv.textContent = '❌ Incorrect password';
-                errorDiv.style.display = 'block';
-                return;
-            }
-            
-            // Login successful
-            localStorage.setItem('currentUser', foundUsername);
-            
-            // Redirect to journal
-            window.location.href = 'index1.html';
         }
-        
-        // Allow Enter key to submit
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                if (!document.getElementById('loginForm').classList.contains('hidden')) {
-                    login();
-                } else if (!document.getElementById('signupForm').classList.contains('hidden')) {
-                    signup();
-                }
-            }
         });
     </script>
 </body>
