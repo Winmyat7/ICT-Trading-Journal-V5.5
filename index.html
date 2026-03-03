@@ -315,90 +315,302 @@
     </div>
     
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword,
+            signInWithPopup,
+            GoogleAuthProvider,
+            updateProfile,
+            onAuthStateChanged
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc,
+            getDoc 
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-<script>
-    // ၂။ သင့်ရဲ့ Config (ဒါကို မပြောင်းပါနဲ့၊ မှန်ပါတယ်)
-    const firebaseConfig = {
-        apiKey: "AIzaSyBAjw6t6oRJGEdYqHpuqIMDga0RpQJTRGA",
-        authDomain: "ict-trading-journal-system.firebaseapp.com",
-        projectId: "ict-trading-journal-system",
-        storageBucket: "ict-trading-journal-system.firebasestorage.app",
-        messagingSenderId: "542689001082",
-        appId: "1:542689001082:web:3d0bb80c9a3a06002fc5c3",
-        measurementId: "G-DNGJEEZ4FT"
-    };
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBAjw6t6oRJGEdYqHpuqIMDga0RpQJTRGA",
+            authDomain: "ict-trading-journal-system.firebaseapp.com",
+            projectId: "ict-trading-journal-system",
+            storageBucket: "ict-trading-journal-system.firebasestorage.app",
+            messagingSenderId: "542689001082",
+            appId: "1:542689001082:web:3d0bb80c9a3a06002fc5c3",
+            measurementId: "G-DNGJEEZ4FT"
+        };
 
-    // ၃။ Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const googleProvider = new GoogleAuthProvider();
 
-    // ၄။ Google Login Function (အသစ်ပြန်ပြင်ထားသည်)
-    async function loginWithGoogle() {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        const errorDiv = document.getElementById('loginError');
-        
-        try {
-            // Popup ပွင့်လာပါမယ်
-            const result = await auth.signInWithPopup(provider);
-            console.log("Success:", result.user);
-            
-            // Login အောင်မြင်ရင် Journal ဆီ သွားမယ်
-            window.location.href = 'index1.html'; 
-        } catch (error) {
-            console.error("Error:", error.code);
-            let msg = "❌ Google Login Error: ";
-            
-            if (error.code === 'auth/popup-blocked') {
-                msg += "Browser က Pop-up ကို ပိတ်ထားပါတယ်။ အပေါ်နားမှာ Allow ပေးလိုက်ပါ။";
-            } else if (error.code === 'auth/unauthorized-domain') {
-                msg += "Firebase မှာ Domain (GitHub link) ထည့်ဖို့ ကျန်နေပါသေးတယ်။";
-            } else {
-                msg += error.message;
+        // Make functions globally available
+        window.auth = auth;
+        window.db = db;
+        window.googleProvider = googleProvider;
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.signInWithPopup = signInWithPopup;
+        window.updateProfile = updateProfile;
+        window.doc = doc;
+        window.setDoc = setDoc;
+        window.getDoc = getDoc;
+
+        // Check if user is already logged in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, redirect to journal
+                console.log('User logged in:', user.email);
+                // Redirect to journal page - using existing complete journal
+                window.location.href = 'index1.html';
             }
-            errorDiv.innerHTML = msg;
-            errorDiv.style.display = 'block';
-        }
-    }
+        });
 
-    // ၅။ Email/Password Login
-    async function login() {
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-        const errorDiv = document.getElementById('loginError');
-        try {
-            await auth.signInWithEmailAndPassword(email, password);
-            window.location.href = 'index1.html';
-        } catch (error) {
-            errorDiv.textContent = '❌ Email သို့မဟုတ် Password မှားနေပါသည်။';
-            errorDiv.style.display = 'block';
-        }
-    }
+        console.log('🔥 Firebase initialized successfully!');
+    </script>
 
-    // ၆။ Signup Function
-    async function signup() {
-        const email = document.getElementById('signupEmail').value;
-        const password = document.getElementById('signupPassword').value;
-        const errorDiv = document.getElementById('signupError');
-        try {
-            await auth.createUserWithEmailAndPassword(email, password);
-            alert('✅ အကောင့်ဖွင့်ပြီးပါပြီ။ Login ပြန်ဝင်ပါ။');
-            showLogin();
-        } catch (error) {
-            errorDiv.textContent = '❌ ' + error.message;
-            errorDiv.style.display = 'block';
+    <script>
+        // Switch between login and signup
+        function showSignup() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.remove('hidden');
+            clearMessages();
         }
-    }
+        
+        function showLogin() {
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+            clearMessages();
+        }
+        
+        function clearMessages() {
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('signupError').style.display = 'none';
+            document.getElementById('signupSuccess').style.display = 'none';
+        }
 
-    function showSignup() {
-        document.getElementById('loginForm').classList.add('hidden');
-        document.getElementById('signupForm').classList.remove('hidden');
-    }
-    function showLogin() {
-        document.getElementById('signupForm').classList.add('hidden');
-        document.getElementById('loginForm').classList.remove('hidden');
-    }
-</script>
+        // Sign Up Function
+        async function signup() {
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            
+            const errorDiv = document.getElementById('signupError');
+            const successDiv = document.getElementById('signupSuccess');
+            const loadingDiv = document.getElementById('signupLoading');
+            
+            // Validation
+            if (!name || !email || !password || !confirmPassword) {
+                errorDiv.textContent = '❌ All fields are required';
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
+                return;
+            }
+            
+            if (password.length < 6) {
+                errorDiv.textContent = '❌ Password must be at least 6 characters';
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                errorDiv.textContent = '❌ Passwords do not match';
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
+                return;
+            }
+            
+            try {
+                // Show loading
+                loadingDiv.classList.add('active');
+                errorDiv.style.display = 'none';
+                
+                // Create user with Firebase Auth
+                const userCredential = await window.createUserWithEmailAndPassword(window.auth, email, password);
+                const user = userCredential.user;
+                
+                // Update user profile with display name
+                await window.updateProfile(user, {
+                    displayName: name
+                });
+                
+                // Create user document in Firestore
+                await window.setDoc(window.doc(window.db, 'users', user.uid), {
+                    displayName: name,
+                    email: email,
+                    createdAt: new Date().toISOString(),
+                    plan: 'free'
+                });
+                
+                // Hide loading
+                loadingDiv.classList.remove('active');
+                
+                // Show success
+                errorDiv.style.display = 'none';
+                successDiv.textContent = '✅ Account created successfully! Redirecting...';
+                successDiv.style.display = 'block';
+                
+                // Redirect to journal
+                setTimeout(() => {
+                    window.location.href = 'index1.html';
+                }, 1500);
+                
+            } catch (error) {
+                loadingDiv.classList.remove('active');
+                console.error('Signup error:', error);
+                
+                let message = '❌ ';
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        message += 'Email already registered';
+                        break;
+                    case 'auth/invalid-email':
+                        message += 'Invalid email address';
+                        break;
+                    case 'auth/weak-password':
+                        message += 'Password is too weak';
+                        break;
+                    default:
+                        message += error.message;
+                }
+                
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
+            }
+        }
+        
+        // Login Function
+        async function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            const errorDiv = document.getElementById('loginError');
+            const loadingDiv = document.getElementById('loginLoading');
+            
+            if (!email || !password) {
+                errorDiv.textContent = '❌ Please enter email and password';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            try {
+                // Show loading
+                loadingDiv.classList.add('active');
+                errorDiv.style.display = 'none';
+                
+                // Sign in with Firebase
+                const userCredential = await window.signInWithEmailAndPassword(window.auth, email, password);
+                const user = userCredential.user;
+                
+                console.log('Login successful:', user.email);
+                
+                // Redirect to journal
+                window.location.href = 'index1.html';
+                
+            } catch (error) {
+                loadingDiv.classList.remove('active');
+                console.error('Login error:', error);
+                
+                let message = '❌ ';
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        message += 'No account found with this email';
+                        break;
+                    case 'auth/wrong-password':
+                        message += 'Incorrect password';
+                        break;
+                    case 'auth/invalid-email':
+                        message += 'Invalid email address';
+                        break;
+                    case 'auth/too-many-requests':
+                        message += 'Too many failed attempts. Please try again later';
+                        break;
+                    default:
+                        message += error.message;
+                }
+                
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        // Google Sign In
+        async function signInWithGoogle() {
+            const loadingDiv = document.getElementById('loginForm').classList.contains('hidden') ? 
+                document.getElementById('signupLoading') : 
+                document.getElementById('loginLoading');
+            const errorDiv = document.getElementById('loginForm').classList.contains('hidden') ? 
+                document.getElementById('signupError') : 
+                document.getElementById('loginError');
+
+            try {
+                loadingDiv.classList.add('active');
+                errorDiv.style.display = 'none';
+
+                const result = await window.signInWithPopup(window.auth, window.googleProvider);
+                const user = result.user;
+
+                // Check if user document exists, create if not
+                const userDoc = await window.getDoc(window.doc(window.db, 'users', user.uid));
+                if (!userDoc.exists()) {
+                    await window.setDoc(window.doc(window.db, 'users', user.uid), {
+                        displayName: user.displayName,
+                        email: user.email,
+                        photoURL: user.photoURL,
+                        createdAt: new Date().toISOString(),
+                        plan: 'free'
+                    });
+                }
+
+                // Redirect to journal
+                window.location.href = 'index1.html';
+
+            } catch (error) {
+                loadingDiv.classList.remove('active');
+                console.error('Google sign in error:', error);
+                
+                let message = '❌ ';
+                
+                if (error.code === 'auth/unauthorized-domain') {
+                    message = `❌ Google Sign-In not configured properly\n\n` +
+                              `To fix:\n` +
+                              `1. Go to Firebase Console\n` +
+                              `2. Authentication → Settings → Authorized domains\n` +
+                              `3. Add "localhost" to the list\n\n` +
+                              `Or use Email/Password login instead.`;
+                } else if (error.code === 'auth/popup-closed-by-user') {
+                    message += 'Sign in cancelled';
+                } else if (error.code === 'auth/popup-blocked') {
+                    message += 'Pop-up blocked by browser. Please allow pop-ups and try again.';
+                } else {
+                    message += error.message;
+                }
+                
+                errorDiv.innerHTML = message.replace(/\n/g, '<br>');
+                errorDiv.style.display = 'block';
+            }
+        }
+        
+        // Allow Enter key to submit
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (!document.getElementById('loginForm').classList.contains('hidden')) {
+                    login();
+                } else if (!document.getElementById('signupForm').classList.contains('hidden')) {
+                    signup();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
