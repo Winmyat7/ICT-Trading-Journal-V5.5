@@ -369,7 +369,7 @@
                 // User is signed in, redirect to journal
                 console.log('User logged in:', user.email);
                 // Redirect to journal page
-                window.location.href = 'index1.html';
+                window.location.href = 'firebase-journal.html';
             }
         });
 
@@ -580,13 +580,23 @@
                 console.error('Google sign in error:', error);
                 
                 let message = '❌ ';
-                if (error.code === 'auth/popup-closed-by-user') {
+                
+                if (error.code === 'auth/unauthorized-domain') {
+                    message = `❌ Google Sign-In not configured properly\n\n` +
+                              `To fix:\n` +
+                              `1. Go to Firebase Console\n` +
+                              `2. Authentication → Settings → Authorized domains\n` +
+                              `3. Add "localhost" to the list\n\n` +
+                              `Or use Email/Password login instead.`;
+                } else if (error.code === 'auth/popup-closed-by-user') {
                     message += 'Sign in cancelled';
+                } else if (error.code === 'auth/popup-blocked') {
+                    message += 'Pop-up blocked by browser. Please allow pop-ups and try again.';
                 } else {
                     message += error.message;
                 }
                 
-                errorDiv.textContent = message;
+                errorDiv.innerHTML = message.replace(/\n/g, '<br>');
                 errorDiv.style.display = 'block';
             }
         }
